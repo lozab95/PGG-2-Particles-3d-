@@ -10,7 +10,9 @@
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
 
+#include "CheckShader.h"
 #include "GameModel.h"
+#include "P_Base.h"
 
 
 // An initialisation function, mainly for GLEW
@@ -84,8 +86,8 @@ int main(int argc, char *argv[])
 	// You can experiment with the numbers to see what they do
 	int winPosX = 100;
 	int winPosY = 100;
-	int winWidth = 640;
-	int winHeight = 480;
+	int winWidth = 1280;
+	int winHeight = 960;
 	SDL_Window *window = SDL_CreateWindow("My Window!!!",  // The first parameter is the window title
 		winPosX, winPosY,
 		winWidth, winHeight,
@@ -134,15 +136,18 @@ int main(int argc, char *argv[])
 	glEnable(GL_DEPTH_TEST);
 
 	// Create a model
+	P_Base *PlayerBase = new P_Base();
+
 	std::vector<GameModel*> Particle1;
 		GameModel* Part1 = new GameModel(); //create a new asteroid 
 	Part1->SetPosition(0,0,0);
 	Particle1.push_back(Part1);
-	for (int i = 0; i < 300; i++)
+
+	for (int i = 0; i < 250; i++)
 	{
-		float newx = rand () %80-80;
-		float newy = rand () %80-80;
-		float newz = rand () %80-80;
+		float newx = rand() % 110 - 110;
+		float newy = rand() % 110 - 110;
+		float newz = rand() % 110 - 110;
 		newx = newx /100;
 		newy = newy /100;
 		newz = newz /100;
@@ -154,8 +159,8 @@ int main(int argc, char *argv[])
 
 	// Set object's position like this:
 
-	int Mx=0; //Mouse locations
-	int My=0; 
+	float Mx=0; //Mouse locations
+	float My = 0;
 
 	// We are now preparing for our main loop (also known as the 'game loop')
 	// This loop will keep going round until we exit from our program by changing the bool 'go' to the value false
@@ -165,10 +170,11 @@ int main(int argc, char *argv[])
 	//   * Update our world
 	//   * Draw our world
 	// We will come back to this in later lectures
+	bool spacetrue = false;
 	bool go = true;
 	while( go )
 	{
-
+		std::cout << "x:  " << Mx << "-- y:  " << My << "px:  " << Particle1[0]->getPosx() << "py:  " << Particle1[0]->getPosy() << std::endl;
 		// Here we are going to check for any input events
 		// Basically when you press the keyboard or move the mouse, the parameters are stored as something called an 'event'
 		// SDL has a queue of events
@@ -200,6 +206,9 @@ int main(int argc, char *argv[])
 			
 				Mx=incomingEvent.motion.x;
 				My=incomingEvent.motion.y;
+				Mx = (Mx / 100) - 6.40;
+				My = ((My / 100) - 4.80) * -1;
+				
 
 			case SDL_KEYDOWN:
 				// The event type is SDL_KEYDOWN
@@ -234,7 +243,15 @@ int main(int argc, char *argv[])
 					Particle1[0]->setForce(0,0,1);
 					break;
 				case SDLK_SPACE:
-					Particle1[0]->setTarget(2,2);
+
+					if (spacetrue == false)
+					{
+						spacetrue = true;
+					}
+					else if (spacetrue == true)
+					{
+					spacetrue = false;
+					}
 					break;
 				}
 				break;
@@ -257,12 +274,26 @@ int main(int argc, char *argv[])
 		// Now that we've done this we can use the current time as the next frame's previous time
 		lastTime = current;
 		
+		PlayerBase->Update(deltaTs);
+
 		// Update the model, to make it rotate
 		for(int i=0; i < Particle1.size();i++) //loop for all of the particles 
 		{
+			if (spacetrue == true)
+			{
+				Particle1[i]->setType(2);
+			}
+			else
+			{
+				Particle1[i]->setType(1);
+			}
+		Particle1[i]->setTarget(Mx, My, -5.0f);
 		Particle1[i]->Update( deltaTs );
+		Particle1[i]->AI();
 		}
 
+		//For Particle repeling
+		/*
 		for(int j=0; j < Particle1.size();j++) //Lops for the amount of Particles in the scene
 		{
 			for(int i=0; i < Particle1.size();i++) //Lops for the amount of Particles in the scene
@@ -274,7 +305,7 @@ int main(int argc, char *argv[])
 
 			}
 		}
-
+		*/
 
 		// Draw our world
 

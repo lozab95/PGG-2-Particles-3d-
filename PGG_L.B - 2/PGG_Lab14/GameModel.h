@@ -25,7 +25,7 @@ public:
 	void Update( float deltaTs );
 
 	/// Draws object using the given camera view and projection matrices
-	void Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix);
+	void Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix);
 
 	/// For setting the position of the model
 	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
@@ -74,10 +74,11 @@ public:
 	{
 		deleteme = true;
 	};
-	inline void setTarget(int x, int y)
+	inline void setTarget(float x, float y, float z)
 	{
 		targetX=x;
 		targetY=y;
+		targetZ = z;
 	};
 	inline void setType(int i)
 	{
@@ -129,13 +130,12 @@ protected:
 	float vX, vY, vZ;
 
 
-	int targetX;
-	int targetY;
+	float targetX;
+	float targetY;
+	float targetZ;
 
 	int health;
 	int type;
-	float position_x;
-	float position_y;
 	int U_id;
 	bool deleteme;
 

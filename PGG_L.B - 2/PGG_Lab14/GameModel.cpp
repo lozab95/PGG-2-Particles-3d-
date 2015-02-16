@@ -4,29 +4,12 @@
 #include <iostream>
 #include <gtc/type_ptr.hpp>
 #include <gtc/matrix_transform.hpp>
+#include "CheckShader.h"
 
 
 // This does not belong here - should really have a nice shader class etc for sorting all this stuff out!
 // Useful little function to just check for compiler errors
-bool CheckShaderCompiled( GLint shader )
-{
-	GLint compiled;
-	glGetShaderiv( shader, GL_COMPILE_STATUS, &compiled );
-	if ( !compiled )
-	{
-		GLsizei len;
-		glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &len );
 
-		// OpenGL will store an error message as a string that we can retrieve and print
-		GLchar* log = new GLchar[len+1];
-		glGetShaderInfoLog( shader, len, &len, log );
-		std::cerr << "ERROR: Shader compilation failed: " << log << std::endl;
-		delete [] log;
-
-		return false;
-	}
-	return true;
-}
 
 
 GameModel::GameModel()
@@ -50,6 +33,10 @@ GameModel::GameModel()
 	accelY=0.0f;
 	accelZ=0.0f;
 
+	targetX = 0.0f;//
+	targetY = 0.0f;
+	targetZ = 0.0f;
+
 	drag = 0.5f; //Drag force to slow forces
 	mass = 2.0f; // Mass, to act with force to create realisitic slowly and acceleration
 	forceX = 0.0f;// Force values for the X and Y axis
@@ -58,8 +45,7 @@ GameModel::GameModel()
 
 	U_id = 1; // Unit ID is set to 1
 	deleteme =  false; // This bool is used to delete the specific 
-	position_x = 0.0f; //Initializing units position to 0
-	position_y = 0.0f;
+
 }
 
 GameModel::~GameModel()
@@ -81,39 +67,39 @@ void GameModel::InitialiseVAO()
 	// Simple vertex data for a cube
 	// (actually this is only four sides of a cube, you will have to expand this code if you want a complete cube :P )
 	float vertices[] = {
-		-0.1f, 0.1f, 0.1f,
-		-0.1f,-0.1f, 0.1f,
-		 0.1f, 0.1f, 0.1f,
+		-0.05f, 0.05f, 0.05f,
+		-0.05f,-0.05f, 0.05f,
+		 0.05f, 0.05f, 0.05f,
 
-		-0.1f,-0.1f, 0.1f,
-		 0.1f,-0.1f, 0.1f,
-		 0.1f, 0.1f, 0.1f,
-
-
-		 0.1f, 0.1f, 0.1f,
-		 0.1f,-0.1f, 0.1f,
-		 0.1f, 0.1f,-0.1f,
-
-		 0.1f,-0.1f, 0.1f,
-		 0.1f,-0.1f,-0.1f,
-		 0.1f, 0.1f,-0.1f,
+		-0.05f,-0.05f, 0.05f,
+		 0.05f,-0.05f, 0.05f,
+		 0.05f, 0.05f, 0.05f,
 
 
-		-0.1f, 0.1f, 0.1f,
-		-0.1f, 0.1f,-0.1f,
-		-0.1f,-0.1f, 0.1f,
+		 0.05f, 0.05f, 0.05f,
+		 0.05f,-0.05f, 0.05f,
+		 0.05f, 0.05f,-0.05f,
 
-		-0.1f,-0.1f, 0.1f,
-		-0.1f, 0.1f,-0.1f,
-		-0.1f,-0.1f,-0.1f,
+		 0.05f,-0.05f, 0.05f,
+		 0.05f,-0.05f,-0.05f,
+		 0.05f, 0.05f,-0.05f,
 
-		 0.1f, 0.1f,-0.1f,
-		 0.1f,-0.1f,-0.1f,
-		-0.1f, 0.1f,-0.1f,
 
-		-0.1f, 0.1f,-0.1f,
-		 0.1f,-0.1f,-0.1f,
-		-0.1f,-0.1f,-0.1f
+		-0.05f, 0.05f, 0.05f,
+		-0.05f, 0.05f,-0.05f,
+		-0.05f,-0.05f, 0.05f,
+
+		-0.05f,-0.05f, 0.05f,
+		-0.05f, 0.05f,-0.05f,
+		-0.05f,-0.05f,-0.05f,
+
+		 0.05f, 0.05f,-0.05f,
+		 0.05f,-0.05f,-0.05f,
+		-0.05f, 0.05f,-0.05f,
+
+		-0.05f, 0.05f,-0.05f,
+		 0.05f,-0.05f,-0.05f,
+		-0.05f,-0.05f,-0.05f
 
 	};
 	// Number of vertices in above data
@@ -347,7 +333,7 @@ void GameModel::Update( float deltaTs )
 
 }
 
-void GameModel::Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix)
+void GameModel::Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix)
 {
 	// Ok, here I like to indent drawing calls - it's just a personal style, you may not like it and that's fine ;)
 	// Generally you will need to be activating and deactivating OpenGL states
@@ -368,7 +354,15 @@ void GameModel::Draw(glm::mat4 viewMatrix, glm::mat4 projMatrix)
 
 			// Tell OpenGL to draw it
 			// Must specify the type of geometry to draw and the number of vertices
-			glDrawArrays(GL_TRIANGLES, 0, _numVertices);
+			if (type == 1)
+			{
+				glDrawArrays(GL_TRIANGLES, 0, _numVertices);
+			}
+			if (type == 2)
+			{
+				glDrawArrays(GL_LINE_STRIP, 0, _numVertices);
+			}
+			
 			
 		// Unbind VAO
 		glBindVertexArray( 0 );
@@ -445,6 +439,7 @@ void GameModel::AI(float x, float y, float z)
 			}
 		}
 	}
+	/*
 	if (type == 2) //type is attract 
 	{
 		if ((tempx >= -250 && tempx <= 250) &&(tempy >= -250 && tempy <= 250))
@@ -467,24 +462,34 @@ void GameModel::AI(float x, float y, float z)
 			}
 		}
 	}
+	*/
 }
 void GameModel::AI(void)
 {                                                 
 	//This function makes my particles orrient and revolve around a Target point, set by the mouse position
-	if ( _position.x <= targetX) //is the x position of the particle less than the target X
+	if ( _position.x < targetX) //is the x position of the particle less than the target X
 	{
-		forceX+=300.0f; // If so add to the X force of the particle
+		forceX += 1.0f; // If so add to the X force of the particle
 	}
-	else if( _position.x >= targetX)
+	if( _position.x > targetX)
 	{
-		forceX+=-300.0f;
+		forceX += -1.0f;
 	}
-	if ( _position.x <= targetY)
+	if ( _position.y < targetY)
 	{
-		forceY+=300.0f;
+		forceY+=1.0f;
 	}
-	else if( _position.x >= targetY)
+	if( _position.y > targetY)
 	{
-		forceY+=-300.0f;
+		forceY += -1.0f;
 	}
+	if (_position.z < targetZ)
+	{
+		forceZ += 1.0f;
+	}
+	if (_position.z > targetZ)
+	{
+		forceZ += -1.0f;
+	}
+	
 }
