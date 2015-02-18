@@ -4,12 +4,11 @@
 #include "glew.h"
 #include "time.h"
 #include <iostream>
-
+#include <sstream>
 // The GLM library contains vector and matrix functions and classes for us to use
 // They are designed to easily work with OpenGL!
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
-
 #include "CheckShader.h"
 #include "GameModel.h"
 #include "P_Base.h"
@@ -138,24 +137,8 @@ int main(int argc, char *argv[])
 	// Create a model
 	P_Base *PlayerBase = new P_Base();
 
-	std::vector<GameModel*> Particle1;
-		GameModel* Part1 = new GameModel(); //create a new asteroid 
-	Part1->SetPosition(0,0,0);
-	Particle1.push_back(Part1);
-
-	for (int i = 0; i < 250; i++)
-	{
-		float newx = rand() % 110 - 110;
-		float newy = rand() % 110 - 110;
-		float newz = rand() % 110 - 110;
-		newx = newx /100;
-		newy = newy /100;
-		newz = newz /100;
-
-		GameModel* Part1 = new GameModel(); //create a new asteroid 
-		Part1->SetPosition(newx,newy,newz);
-		Particle1.push_back(Part1);
-	}
+	GameModel *boxes = new GameModel(2000); //create a new asteroid 
+	
 
 	// Set object's position like this:
 
@@ -170,11 +153,21 @@ int main(int argc, char *argv[])
 	//   * Update our world
 	//   * Draw our world
 	// We will come back to this in later lectures
+	
 	bool spacetrue = false;
 	bool go = true;
-	while( go )
+	while (go)
 	{
-		std::cout << "x:  " << Mx << "-- y:  " << My << "px:  " << Particle1[0]->getPosx() << "py:  " << Particle1[0]->getPosy() << std::endl;
+	
+		unsigned int current = SDL_GetTicks();
+		float deltaTs = (float)(current - lastTime) / 1000.0f;
+		lastTime = current;
+
+		std::cout << 1.0f / deltaTs << std::endl;
+		
+
+
+		//std::cout << "x:  " << Mx << "-- y:  " << My << "px:  " << Particle1[0]->getPosx() << "py:  " << Particle1[0]->getPosy() << std::endl;
 		// Here we are going to check for any input events
 		// Basically when you press the keyboard or move the mouse, the parameters are stored as something called an 'event'
 		// SDL has a queue of events
@@ -218,29 +211,29 @@ int main(int argc, char *argv[])
 				{
 				case SDLK_DOWN:
 					//Move Down
-					Particle1[0]->setForce(0,-1,0);
+					boxes->setForce(0,0,-1,0);
 					break;
 				case SDLK_UP:
 					//Move Up
-					Particle1[0]->setForce(0,1,0);
+					boxes->setForce(0, 0, 1, 0);
 					break;
 				case SDLK_LEFT:
 					//Move Left
-					Particle1[0]->setForce(-1,0,0);
+					boxes->setForce(0, -1, 0, 0);
 					break;
 				case SDLK_RIGHT:
 					//Move Right
-					Particle1[0]->setForce(1,0,0);
+					boxes->setForce(0, 1, 0, 0);
 					break;
 				case SDLK_a:
 					break;
 				case SDLK_d:
 					break;
 				case SDLK_w:
-					Particle1[0]->setForce(0,0,-1);
+					boxes->setForce(0, 0, 0, -1);
 					break;
 				case SDLK_s:
-					Particle1[0]->setForce(0,0,1);
+					boxes->setForce(0, 0, 0, 1);
 					break;
 				case SDLK_SPACE:
 
@@ -259,53 +252,17 @@ int main(int argc, char *argv[])
 		}
 
 		
-		// Update our world
-
-		// We are going to work out the time between each frame now
-		// First, find the current time
-		// again, SDL_GetTicks() returns the time in milliseconds since SDL was initialised
-		// We can use this as the current time
-		unsigned int current = SDL_GetTicks();
-		// Next, we want to work out the change in time between the previous frame and the current one
-		// This is a 'delta' (used in physics to denote a change in something)
-		// So we call it our 'deltaT' and I like to use an 's' to remind me that it's in seconds!
-		// (To get it in seconds we need to divide by 1000 to convert from milliseconds)
-		float deltaTs = (float) (current - lastTime) / 1000.0f;
-		// Now that we've done this we can use the current time as the next frame's previous time
-		lastTime = current;
-		
-		PlayerBase->Update(deltaTs);
-
 		// Update the model, to make it rotate
-		for(int i=0; i < Particle1.size();i++) //loop for all of the particles 
-		{
-			if (spacetrue == true)
-			{
-				Particle1[i]->setType(2);
-			}
-			else
-			{
-				Particle1[i]->setType(1);
-			}
-		Particle1[i]->setTarget(Mx, My, -5.0f);
-		Particle1[i]->Update( deltaTs );
-		Particle1[i]->AI();
-		}
+		boxes->Update(deltaTs, Mx, My, (deltaTs * -100));
+		boxes->Repel();
+		boxes->AI();
+		boxes->travelTime(deltaTs);
+		
 
 		//For Particle repeling
-		/*
-		for(int j=0; j < Particle1.size();j++) //Lops for the amount of Particles in the scene
-		{
-			for(int i=0; i < Particle1.size();i++) //Lops for the amount of Particles in the scene
-			{
-				if (i!=j)
-				{
-					Particle1[j]->AI(Particle1[i]->getPosx() ,Particle1[i]->getPosy(),Particle1[i]->getPosz()); // Ai between asteroids
-				}	
-
-			}
-		}
-		*/
+		
+		
+		
 
 		// Draw our world
 
@@ -325,11 +282,10 @@ int main(int argc, char *argv[])
 		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0,0,-2.5f) );
 
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
-		for(int i=0; i < Particle1.size();i++) //loop for all of the bullets 
-		{
-		Particle1[i]->Draw( View, Projection);
-		Particle1[i]->travelTime(deltaTs);
-		}
+		boxes->Draw(View, Projection);
+		
+		
+		
 		// This tells the renderer to actually show its contents to the screen
 		// We'll get into this sort of thing at a later date - or just look up 'double buffering' if you're impatient :P
 		SDL_GL_SwapWindow( window );

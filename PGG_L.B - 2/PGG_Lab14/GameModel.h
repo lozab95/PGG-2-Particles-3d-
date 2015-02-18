@@ -5,6 +5,7 @@
 #include <glm.hpp>
 #include <SDL.h>
 #include "glew.h"
+#include <vector>
 
 /// Class to store and display a model
 class GameModel
@@ -12,7 +13,7 @@ class GameModel
 public:
 
 	/// Constructor calls InitialiseVAO and InitialiseShaders
-	GameModel();
+	GameModel(int i);
 	~GameModel();
 
 	/// Loads object model into OpenGL
@@ -22,13 +23,13 @@ public:
 	void InitialiseShaders();
 
 	/// Currently just updates rotation to make the model rotate
-	void Update( float deltaTs );
+	void Update(float deltaTs, float mx, float my, float mz);
 
 	/// Draws object using the given camera view and projection matrices
 	void Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix);
 
 	/// For setting the position of the model
-	void SetPosition( float posX, float posY, float posZ ) {_position.x = posX; _position.y = posY; _position.z = posZ;}
+	void SetPosition(int index, float posX, float posY, float posZ) { _position[index].x = posX; _position[index].y = posY; _position[index].z = posZ; }
 
 	//Getters and Setters!
 
@@ -41,29 +42,29 @@ public:
 		health = i;
 	};
 	//Positions
-	inline float getPosx(void)
+	inline float getPosx(int index)
 	{
-		return _position.x;
+		return _position[index].x;
 	};
-	inline void setPosx(float i)
+	inline void setPosx(int index, float i)
 	{
-		_position.x = i;
+		_position[index].x = i;
 	};
-	inline float getPosy(void)
+	inline float getPosy(int index)
 	{
-		return _position.y;
+		return _position[index].y;
 	};
-	inline float getPosz(void)
+	inline float getPosz(int index)
 	{
-		return _position.z;
+		return _position[index].z;
 	};
-	inline void setPosy(float i)
+	inline void setPosy(int index, float i)
 	{
-		_position.y = i;
+		_position[index].y = i;
 	};
-	inline void setPosz(float i)
+	inline void setPosz(int index, float i)
 	{
-		_position.z = i;
+		_position[index].z = i;
 	};
 	//Other
 	inline bool getDelete(void)
@@ -74,11 +75,11 @@ public:
 	{
 		deleteme = true;
 	};
-	inline void setTarget(float x, float y, float z)
+	inline void setTarget(int index, float x, float y, float z)
 	{
-		targetX=x;
-		targetY=y;
-		targetZ = z;
+		target[index].x = x;
+		target[index].y = y;
+		target[index].z = z;
 	};
 	inline void setType(int i)
 	{
@@ -92,19 +93,19 @@ public:
 	};
 
 	//Ai functions
-	void AI(float x, float y, float z);
+	void Repel(void);
 	void AI(void);
 	//Physics Functions
-	void setForce(float x, float y, float z);
+	void setForce(int index, float x, float y, float z);
 	void travelTime(float deltaTs);
 
 protected:
 
 	/// Object position vector
-	glm::vec3 _position;
+
 
 	/// Euler angles for rotation
-	glm::vec3 _rotation;
+
 
 	/// Vertex Array Object for model in OpenGL
 	GLuint _VAO;
@@ -117,22 +118,24 @@ protected:
 
 	/// Object's model matrix
 	/// This is rebuilt in the update function
-	glm::mat4 _modelMatrix;
 
+	std::vector<glm::mat4> _modelMatrix;
 	/// Number of vertices in the model
 	unsigned int _numVertices;
 
 	// Variables for gameplay
-	float forceX, forceY, forceZ;
-	float accelX, accelY, accelZ;
+	int size;
+
+	std::vector<glm::vec3> _position;
+	std::vector<glm::vec3> _rotation;
+	std::vector<glm::vec3> force;
+	std::vector<glm::vec3> velocity;
+	std::vector<glm::vec3> accel;
+	std::vector<glm::vec3> target;
+
 	float mass;
 	float drag;
-	float vX, vY, vZ;
-
-
-	float targetX;
-	float targetY;
-	float targetZ;
+	
 
 	int health;
 	int type;
