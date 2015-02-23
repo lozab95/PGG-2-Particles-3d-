@@ -81,39 +81,16 @@ void GameModel::InitialiseVAO()
 	// Simple vertex data for a cube
 	// (actually this is only four sides of a cube, you will have to expand this code if you want a complete cube :P )
 	float vertices[] = {
-		-0.05f, 0.05f, 0.05f,
-		-0.05f,-0.05f, 0.05f,
-		 0.05f, 0.05f, 0.05f,
+		0.0f, 0.0f, 0.0f,
 
-		-0.05f,-0.05f, 0.05f,
-		 0.05f,-0.05f, 0.05f,
-		 0.05f, 0.05f, 0.05f,
-
-
-		 0.05f, 0.05f, 0.05f,
-		 0.05f,-0.05f, 0.05f,
-		 0.05f, 0.05f,-0.05f,
-
-		 0.05f,-0.05f, 0.05f,
-		 0.05f,-0.05f,-0.05f,
-		 0.05f, 0.05f,-0.05f,
-
-
-		-0.05f, 0.05f, 0.05f,
-		-0.05f, 0.05f,-0.05f,
-		-0.05f,-0.05f, 0.05f,
-
-		-0.05f,-0.05f, 0.05f,
-		-0.05f, 0.05f,-0.05f,
-		-0.05f,-0.05f,-0.05f,
-
-		 0.05f, 0.05f,-0.05f,
-		 0.05f,-0.05f,-0.05f,
-		-0.05f, 0.05f,-0.05f,
-
-		-0.05f, 0.05f,-0.05f,
-		 0.05f,-0.05f,-0.05f,
-		-0.05f,-0.05f,-0.05f
+		0.0f, 0.0f, 0.0f,
+		0.5f, 0.0f, 0.0f,
+		0.5f, 0.0f, -0.5f,
+		0.0f, 0.0f, -0.5f,
+		0.0f, 0.5f, -0.5f,
+		0.0f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		0.5f, 0.5f, -0.5f,
 
 	};
 	// Number of vertices in above data
@@ -147,36 +124,36 @@ void GameModel::InitialiseVAO()
 		 0.0f, 0.0f, 0.5f,
 		 0.0f, 0.0f, 0.5f,
 		 0.0f, 0.0f, 0.5f,
-		 
-		 0.0f, 0.0f, 0.5f,
-		 0.0f, 0.0f, 0.5f,
-		 0.0f, 0.0f, 0.5f,
 
 		 0.5f, 0.0f, 0.0f,
 		 0.5f, 0.0f, 0.0f,
 		 0.5f, 0.0f, 0.0f,
 		 
-		 0.5f, 0.0f, 0.0f,
-		 0.5f, 0.0f, 0.0f,
-		 0.5f, 0.0f, 0.0f,
-		 
 		-0.5f, 0.0f, 0.0f,
 		-0.5f, 0.0f, 0.0f,
 		-0.5f, 0.0f, 0.0f,
-		 
-		-0.5f, 0.0f, 0.0f,
-		-0.5f, 0.0f, 0.0f,
-		-0.5f, 0.0f, 0.0f,
-		
-		 0.0f, 0.0f,-0.5f,
-		 0.0f, 0.0f,-0.5f,
-		 0.0f, 0.0f,-0.5f,
+
 		 
 		 0.0f, 0.0f,-0.5f,
 		 0.0f, 0.0f,-0.5f,
 		 0.0f, 0.0f,-0.5f
 	};
+	GLubyte Indices[] = {
+		
+		1, 2, 3,
+		2, 3, 4,
+		1, 4, 5,
+		1, 4, 6,
+		5, 6, 8,
+		5, 8, 7,
+		2, 3, 8,
+		2, 7, 8,
+		1, 2, 6,
+		1, 2, 7,
+		4, 3, 5,
+		4, 5, 8,
 
+	};
 	// Variable for storing a VBO
 	GLuint normalBuffer = 0;
 	// Create a generic 'buffer'
@@ -192,7 +169,9 @@ void GameModel::InitialiseVAO()
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0 );
 	glEnableVertexAttribArray(1);
 
-
+	glGenBuffers(1, &IndexBufferId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
 
 	
 
@@ -392,7 +371,7 @@ void GameModel::Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix)
 
 			if (type == 1)
 			{
-				glDrawArrays(GL_TRIANGLES, 0, _numVertices);
+				glDrawElements(GL_TRIANGLES, 48, GL_UNSIGNED_BYTE, (GLvoid*)0);
 			}
 		}
 			
@@ -416,9 +395,9 @@ void GameModel::travelTime (float deltaTs)
 	for (int i = 0; i < size; i++)
 	{
 
-		float dragX = (-force[i].x * drag);
-		float dragY = (-force[i].y * drag);
-		float dragZ = (-force[i].z * drag);
+		float dragX = (-velocity[i].x * drag);
+		float dragY = (-velocity[i].y * drag);
+		float dragZ = (-velocity[i].z * drag);
 
 		accel[i].x = (force[i].x + dragX) / mass;
 		accel[i].y = (force[i].y + dragY) / mass;

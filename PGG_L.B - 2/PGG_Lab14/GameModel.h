@@ -109,6 +109,7 @@ protected:
 
 	/// Vertex Array Object for model in OpenGL
 	GLuint _VAO;
+	GLuint IndexBufferId;
 
 	/// Shader program
 	GLuint _program;

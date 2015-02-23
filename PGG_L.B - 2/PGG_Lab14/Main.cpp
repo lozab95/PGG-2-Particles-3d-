@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
 	// Create a model
 	P_Base *PlayerBase = new P_Base();
 
-	GameModel *boxes = new GameModel(2000); //create a new asteroid 
+	GameModel *boxes = new GameModel(1000); //create a new asteroid 
 	
 
 	// Set object's position like this:
