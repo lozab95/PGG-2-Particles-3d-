@@ -10,7 +10,7 @@
 #include <glm.hpp> // This is the main GLM header
 #include <gtc/matrix_transform.hpp> // This one lets us use matrix transformations
 #include "CheckShader.h"
-#include "GameModel.h"
+#include "Boxes.h"
 #include "P_Base.h"
 
 
@@ -135,9 +135,16 @@ int main(int argc, char *argv[])
 	glEnable(GL_DEPTH_TEST);
 
 	// Create a model
-	P_Base *PlayerBase = new P_Base();
+	P_base *PlayerBase = new P_base(1);
+	P_base *EnemyBase = new P_base(1);
+	PlayerBase->setPosx(1.5);
+	PlayerBase->setPosy(0.0);
+	PlayerBase->setPosz(0.0);
 
-	GameModel *boxes = new GameModel(1000); //create a new asteroid 
+	EnemyBase->setPosx(-1.5);
+	EnemyBase->setPosy(0.0);
+	EnemyBase->setPosz(0.0);
+	Boxes *boxes = new Boxes(10); //create a new asteroid 
 	
 
 	// Set object's position like this:
@@ -236,14 +243,10 @@ int main(int argc, char *argv[])
 					boxes->setForce(0, 0, 0, 1);
 					break;
 				case SDLK_SPACE:
-
-					if (spacetrue == false)
 					{
-						spacetrue = true;
-					}
-					else if (spacetrue == true)
-					{
-					spacetrue = false;
+					boxes->resizeUP(Mx, My);
+						
+						break;
 					}
 					break;
 				}
@@ -253,14 +256,17 @@ int main(int argc, char *argv[])
 
 		
 		// Update the model, to make it rotate
-		boxes->Update(deltaTs, Mx, My, (deltaTs * -100));
+		boxes->Update(deltaTs);
+		PlayerBase->Update(deltaTs, Mx, My, (deltaTs * -100));
+		EnemyBase->Update(deltaTs, Mx, My, (deltaTs * -100));
 		boxes->Repel();
 		boxes->AI();
 		boxes->travelTime(deltaTs);
+		PlayerBase->travelTime(deltaTs);
+		EnemyBase->travelTime(deltaTs);
 		
 
 		//For Particle repeling
-		
 		
 		
 
@@ -283,7 +289,8 @@ int main(int argc, char *argv[])
 
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		boxes->Draw(View, Projection);
-		
+		PlayerBase->Draw(View, Projection);
+		EnemyBase->Draw(View, Projection);
 		
 		
 		// This tells the renderer to actually show its contents to the screen
@@ -291,10 +298,12 @@ int main(int argc, char *argv[])
 		SDL_GL_SwapWindow( window );
 		
 		// Limiter in case we're running really quick
+		/*
 		if( deltaTs < (1.0f/50.0f) )	// not sure how accurate the SDL_Delay function is..
 		{
 			SDL_Delay((unsigned int) (((1.0f/50.0f) - deltaTs)*1000.0f) );
 		}
+		*/
 	}
 
 	// If we get outside the main game loop, it means our user has requested we exit

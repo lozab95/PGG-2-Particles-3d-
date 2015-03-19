@@ -1,23 +1,23 @@
-﻿Build started 18/02/2015 16:09:17.
-     1>Project "E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" on node 2 (Build target(s)).
+﻿Build started 05/03/2015 11:00:29.
+     1>Project "F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDKs\glm /I"E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\\include" /I"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D GLEW_STATIC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDKs\glm /I"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\\include" /I"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D GLEW_STATIC /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
          Main.cpp
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(81): warning C4244: 'initializing' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(138): warning C4316: 'P_Base' : object allocated on the heap may not be aligned 16
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(200): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(201): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(202): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>e:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(203): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(81): warning C4244: 'initializing' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(138): warning C4316: 'P_Base' : object allocated on the heap may not be aligned 16
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(200): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(201): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(202): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\main.cpp(203): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\\include" /LIBPATH:"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\lib\x86" SDL2.lib SDL2main.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.lib" /MACHINE:X86 Debug\CheckShader.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.exe" /INCREMENTAL /NOLOGO /LIBPATH:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\\include" /LIBPATH:"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\lib\x86" SDL2.lib SDL2main.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.lib" /MACHINE:X86 Debug\CheckShader.obj
          Debug\GameModel.obj
          Debug\glew.obj
          Debug\Main.obj
          Debug\P_Base.obj
-         PGG_Lab14.vcxproj -> E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.exe
-     1>Done Building Project "E:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" (Build target(s)).
+         PGG_Lab14.vcxproj -> F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Debug\PGG_L.B - 2.exe
+     1>Done Building Project "F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.61
+Time Elapsed 00:00:01.89

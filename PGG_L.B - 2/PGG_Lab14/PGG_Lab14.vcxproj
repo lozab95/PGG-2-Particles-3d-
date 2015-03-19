@@ -155,16 +155,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CheckShader.cpp" />
-    <ClCompile Include="GameModel.cpp" />
+    <ClCompile Include="Boxes.cpp" />
     <ClCompile Include="glew.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="P_Base.cpp" />
+    <ClCompile Include="P_base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CheckShader.h" />
-    <ClInclude Include="GameModel.h" />
+    <ClInclude Include="Boxes.h" />
     <ClInclude Include="glew.h" />
-    <ClInclude Include="P_Base.h" />
+    <ClInclude Include="P_base.h" />
     <ClInclude Include="wglew.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
