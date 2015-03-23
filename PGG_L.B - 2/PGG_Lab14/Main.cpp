@@ -136,14 +136,12 @@ int main(int argc, char *argv[])
 
 	// Create a model
 	P_base *PlayerBase = new P_base(1);
-	P_base *EnemyBase = new P_base(1);
+	
 	PlayerBase->setPosx(1.5);
 	PlayerBase->setPosy(0.0);
 	PlayerBase->setPosz(0.0);
 
-	EnemyBase->setPosx(-1.5);
-	EnemyBase->setPosy(0.0);
-	EnemyBase->setPosz(0.0);
+
 	Boxes *boxes = new Boxes(10); //create a new asteroid 
 	
 
@@ -163,6 +161,7 @@ int main(int argc, char *argv[])
 	
 	bool spacetrue = false;
 	bool go = true;
+	int target = 0;
 	while (go)
 	{
 	
@@ -203,7 +202,9 @@ int main(int argc, char *argv[])
 				// and also: https://wiki.libsdl.org/SDL_EventType
 				// but don't worry, we'll be looking at handling user keyboard and mouse input soon
 			case SDL_MOUSEMOTION : 
-			
+
+				boxes->resizeUP();
+
 				Mx=incomingEvent.motion.x;
 				My=incomingEvent.motion.y;
 				Mx = (Mx / 100) - 6.40;
@@ -218,35 +219,45 @@ int main(int argc, char *argv[])
 				{
 				case SDLK_DOWN:
 					//Move Down
-					boxes->setForce(0,0,-1,0);
+					PlayerBase->setForce(0, -1, 0);
 					break;
 				case SDLK_UP:
 					//Move Up
-					boxes->setForce(0, 0, 1, 0);
+					PlayerBase->setForce(0, 1, 0);
 					break;
 				case SDLK_LEFT:
 					//Move Left
-					boxes->setForce(0, -1, 0, 0);
+					PlayerBase->setForce(-1, 0, 0);
 					break;
 				case SDLK_RIGHT:
 					//Move Right
-					boxes->setForce(0, 1, 0, 0);
+					PlayerBase->setForce(1, 0, 0);
 					break;
 				case SDLK_a:
 					break;
 				case SDLK_d:
 					break;
 				case SDLK_w:
-					boxes->setForce(0, 0, 0, -1);
+					PlayerBase->setForce(0, 0, -1);
 					break;
 				case SDLK_s:
-					boxes->setForce(0, 0, 0, 1);
+					PlayerBase->setForce(0, 0, 1);
 					break;
 				case SDLK_SPACE:
 					{
-					boxes->resizeUP(Mx, My);
-						
-						break;
+					if (spacetrue == false)
+					{
+					   spacetrue = true;
+					}
+					else
+					{
+						spacetrue = false;
+					}
+					target = 0;
+					target = boxes->Find(PlayerBase->getPosx(), PlayerBase->getPosy(), PlayerBase->getPosz());
+					PlayerBase->setTarget(boxes->getPosx(target), boxes->getPosy(target), boxes->getPosz(target));
+
+					break;
 					}
 					break;
 				}
@@ -258,13 +269,18 @@ int main(int argc, char *argv[])
 		// Update the model, to make it rotate
 		boxes->Update(deltaTs);
 		PlayerBase->Update(deltaTs, Mx, My, (deltaTs * -100));
-		EnemyBase->Update(deltaTs, Mx, My, (deltaTs * -100));
+
+		if (spacetrue == true) 
+		{
+			PlayerBase->AI();
+		}
+		
+		
 		boxes->Repel();
-		boxes->AI();
+		//boxes->AI();
 		boxes->travelTime(deltaTs);
 		PlayerBase->travelTime(deltaTs);
-		EnemyBase->travelTime(deltaTs);
-		
+
 
 		//For Particle repeling
 		
@@ -290,7 +306,7 @@ int main(int argc, char *argv[])
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		boxes->Draw(View, Projection);
 		PlayerBase->Draw(View, Projection);
-		EnemyBase->Draw(View, Projection);
+
 		
 		
 		// This tells the renderer to actually show its contents to the screen
@@ -301,7 +317,8 @@ int main(int argc, char *argv[])
 		/*
 		if( deltaTs < (1.0f/50.0f) )	// not sure how accurate the SDL_Delay function is..
 		{
-			SDL_Delay((unsigned int) (((1.0f/50.0f) - deltaTs)*1000.0f) );
+			SDL_Delay((unsigned int) (((1.0f/50.0f) 
+			- deltaTs)*1000.0f) );
 		}
 		*/
 	}
