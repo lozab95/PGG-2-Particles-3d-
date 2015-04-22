@@ -108,7 +108,8 @@ public:
 		glm::vec3 newTarget(0.0f, 0.0f, newz);
 		glm::vec3 newVelocity(0.0f, 0.0f, 0.0f);
 		bool newdeleteme = false;
-		//create a new asteroid 
+
+		//create a new particle 
 
 		glm::mat4 new_modelMatrix;
 

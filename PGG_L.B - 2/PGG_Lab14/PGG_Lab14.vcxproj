@@ -158,12 +158,14 @@
     <ClCompile Include="Boxes.cpp" />
     <ClCompile Include="glew.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModelLoader.cpp" />
     <ClCompile Include="P_base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CheckShader.h" />
     <ClInclude Include="Boxes.h" />
     <ClInclude Include="glew.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="P_base.h" />
     <ClInclude Include="wglew.h" />
   </ItemGroup>

@@ -13,9 +13,11 @@
 #include "Boxes.h"
 #include "P_Base.h"
 
-
+unsigned int loadTexture(const char *filename);
 bool collision(float, float, float, float, float, float, float, float);
 
+unsigned int tex;
+unsigned int tex2;
 // An initialisation function, mainly for GLEW
 // This will also print to console the version of OpenGL we are using
 bool InitGL()
@@ -136,14 +138,19 @@ int main(int argc, char *argv[])
 	// Enable the depth test to make sure triangles in front are always in front no matter the order they are drawn
 	glEnable(GL_DEPTH_TEST);
 
+	//Here I enable 2d textures
+	glEnable(GL_TEXTURE_2D);
+
+	//Now I will load my texture in
+	//tex = loadTexture("Sky.bmp");
+	tex2 = loadTexture("Glow.bmp");
 	// Create a model
-	P_base *PlayerBase = new P_base(1);
+	P_base *PlayerBase = new P_base(1, "Sphere.obj");
 
 	PlayerBase->setPosx(0.5f);
-	PlayerBase->setPosy(0.0f);
+	PlayerBase->setPosy(-0.0f);
 	PlayerBase->setPosz(-3.0f);
-
-
+	
 	Boxes *boxes = new Boxes(2000); //create a new asteroid 
 
 
@@ -222,7 +229,7 @@ int main(int argc, char *argv[])
 
 
 			case SDL_MOUSEMOTION:
-
+				
 				boxes->resizeUP();
 
 				Mx = incomingEvent.motion.x;
@@ -258,6 +265,7 @@ int main(int argc, char *argv[])
 				case SDLK_d:
 					break;
 				case SDLK_w:
+					
 					PlayerBase->setForce(0, 0, -1);
 					break;
 				case SDLK_s:
@@ -283,12 +291,13 @@ int main(int argc, char *argv[])
 
 		if (spacetrue == true)
 		{
+			boxes->AI();
 			target = 0;
 			target = boxes->Find(PlayerBase->getPosx(), PlayerBase->getPosy(), PlayerBase->getPosz());
 			//if (target != 0)
 			{
 				PlayerBase->setTarget(boxes->getPosx(target), boxes->getPosy(target), boxes->getPosz(target));
-				PlayerBase->AI();
+				
 			}
 		}
 		// Update the model, to make it rotate
@@ -297,7 +306,7 @@ int main(int argc, char *argv[])
 
 
 		boxes->Repel();
-		boxes->AI();
+		PlayerBase->AI();
 		boxes->travelTime(deltaTs);
 		PlayerBase->travelTime(deltaTs);
 
@@ -323,11 +332,12 @@ int main(int argc, char *argv[])
 		// You can think of this as moving the world away from the camera
 		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -2.5f));
 
+		
 		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
 		boxes->Draw(View, Projection);
-		PlayerBase->Draw(View, Projection);
-
-
+		PlayerBase->Draw(View, Projection, tex2);
+		//playerMesh->Draw(View, Projection);
+		
 
 		// This tells the renderer to actually show its contents to the screen
 		// We'll get into this sort of thing at a later date - or just look up 'double buffering' if you're impatient :P
@@ -368,5 +378,16 @@ bool collision(float x1, float y1, float x2, float y2, float x1d, float y1d, flo
 	{
 		return true;
 	}
-
+}
+unsigned int loadTexture(const char* filename)
+{
+	SDL_Surface* img = SDL_LoadBMP(filename);
+	unsigned int id;
+	glGenTextures(1, &id);
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->w, img->h, 0, GL_BGR, GL_UNSIGNED_BYTE, img->pixels);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	SDL_FreeSurface(img);
+	return id;
 }

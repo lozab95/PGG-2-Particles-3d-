@@ -1,35 +1,24 @@
-﻿Build started 20/04/2015 19:04:05.
+﻿Build started 22/04/2015 19:12:50.
      1>Project "F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDKs\glm /I"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D GLEW_STATIC /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Boxes.cpp Main.cpp
-         Boxes.cpp
-     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(97): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(98): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(99): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>Boxes.cpp(32): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>Boxes.cpp(33): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>Boxes.cpp(34): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\SDKs\glm /I"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D GLEW_STATIC /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /arch:SSE2 /fp:fast /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp ModelLoader.cpp
          Main.cpp
      1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(97): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
      1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(98): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
      1>f:\year 2\i - gfx programming\assignments\assignment 2\pgg_l.b - 2 - 2013\pgg_l.b - 2\pgg_lab14\Boxes.h(99): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
-     1>Main.cpp(83): warning C4244: 'initializing' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>Main.cpp(140): warning C4316: 'P_base' : object allocated on the heap may not be aligned 16
-     1>Main.cpp(228): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
-     1>Main.cpp(229): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
-     1>Main.cpp(230): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>Main.cpp(231): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Release\PGG_L.B - 2.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\SDKs\SDL\SDL2-devel-2.0.3-VC\SDL2-2.0.3\lib\x86" SDL2.lib SDL2main.lib OpenGL32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Release\PGG_L.B - 2.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Release\PGG_L.B - 2.lib" /MACHINE:X86 /SAFESEH Release\CheckShader.obj
-         Release\Boxes.obj
-         Release\glew.obj
-         Release\Main.obj
-         Release\P_base.obj
-         Generating code
-         Finished generating code
-         PGG_Lab14.vcxproj -> F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\Release\PGG_L.B - 2.exe
-     1>Done Building Project "F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" (Build target(s)).
+     1>Main.cpp(85): warning C4244: 'initializing' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>Main.cpp(148): warning C4316: 'P_base' : object allocated on the heap may not be aligned 16
+     1>Main.cpp(235): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
+     1>Main.cpp(236): warning C4244: '=' : conversion from 'Sint32' to 'float', possible loss of data
+     1>Main.cpp(237): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Main.cpp(238): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         ModelLoader.cpp
+     1>ModelLoader.cpp(92): warning C4018: '<' : signed/unsigned mismatch
+     1>ModelLoader.cpp(102): warning C4018: '<' : signed/unsigned mismatch
+     1>ModelLoader.cpp(105): error C2065: 'vetices' : undeclared identifier
+     1>ModelLoader.cpp(141): warning C4018: '<' : signed/unsigned mismatch
+     1>Done Building Project "F:\Year 2\I - GFX Programming\Assignments\Assignment 2\PGG_L.B - 2 - 2013\PGG_L.B - 2\PGG_Lab14\PGG_Lab14.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:03.50
+Time Elapsed 00:00:01.09

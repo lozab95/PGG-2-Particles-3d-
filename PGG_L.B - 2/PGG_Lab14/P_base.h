@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include "glew.h"
 #include <vector>
+#include "ModelLoader.h"
 
 /// Class to store and display a model
 class P_base
@@ -13,20 +14,21 @@ class P_base
 public:
 
 	/// Constructor calls InitialiseVAO and InitialiseShaders
-	P_base(int i);
+	P_base(int i, std::string filename);
 	~P_base();
+	
 
 	/// Loads object model into OpenGL
 	void InitialiseVAO();
 
 	/// Loads shaders for the object into OpenGL
 	void InitialiseShaders();
-
+	
 	/// Currently just updates rotation to make the model rotate
 	void Update(float deltaTs, float mx, float my, float mz);
 
 	/// Draws object using the given camera view and projection matrices
-	void Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix);
+	void Draw(const glm::mat4 &viewMatrix, const glm::mat4 &projMatrix, unsigned int texID);
 
 	/// For setting the position of the model
 	void SetPosition(float posX, float posY, float posZ) { _position.x = posX; _position.y = posY; _position.z = posZ; }
@@ -101,12 +103,21 @@ public:
 
 protected:
 
-	/// Object position vector
+	/// Object file
+	ModelLoader* mesh;
+	
+	// vertex buffers
+	GLuint positionBuffer;
+	GLuint normalBuffer;
+	GLuint texCoordBuffer;
+	GLuint tangentBuffer;
+	GLuint biTangentBuffer;
 
+	// texture ID?
+	unsigned int texture;
 
 	/// Euler angles for rotation
-
-
+	
 	/// Vertex Array Object for model in OpenGL
 	GLuint _VAO;
 	GLuint IndexBufferId;
@@ -123,7 +134,7 @@ protected:
 	glm::mat4 _modelMatrix;
 	/// Number of vertices in the model
 	unsigned int _numVertices;
-
+	
 	// Variables for gameplay
 	int size;
 
@@ -136,7 +147,6 @@ protected:
 
 	float mass;
 	float drag;
-
 
 	int health;
 	int type;
