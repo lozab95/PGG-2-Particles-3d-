@@ -182,9 +182,10 @@ void P_base::Update(float deltaTs, float mx, float my, float mz)
 	// update the rotation angle of our cube
 	for (int i = 0; i < size; i++)
 	{
-		target.x = mx;
-		target.y = my;
-		target.z = mz;
+		//The following lines make the sphere follow the mouse position for debugging purposes
+		//target.x = mx;
+		//target.y = my;
+		//target.z = mz;
 
 
 		_rotation.x += deltaTs * 0.5f;
@@ -312,107 +313,34 @@ void P_base::travelTime(float deltaTs)
 	}
 }
 
-void P_base::Repel()
-{
 
-	//forceX=0.0f;
-	//forceY=0.0f;
-	for (int j = 0; j < size; j++)
-	{
-		for (int i = 0; i < size; i++)
-		{
-			if (i != j)
-			{
-
-				float tempx = (_position.x - _position.x); //distance between local position and specifed position
-				float tempy = (_position.y - _position.y);
-				float tempz = (_position.z - _position.z);
-
-				if (type == 1) //Type is repel
-				{
-					if ((tempx >= -0.1f && tempx <= 0.1f) && (tempy >= -0.1f && tempy <= 0.1f) && (tempz >= -0.1f && tempz <= 0.1f)) //If within a -50 and +50 pixels on the X and Y 
-					{
-						if (tempx < 0) // add negative force to the X
-						{
-							force.x += -1.0f;
-						}
-						if (tempx > 0)
-						{
-							force.x += 1.0f;
-						}
-						if (tempy < 0)
-						{
-							force.y += -1.0f;
-						}
-						if (tempy > 0)
-						{
-							force.y += 1.0f;
-						}
-						if (tempz < 0)
-						{
-							force.z += -1.0f;
-						}
-						if (tempz > 0)
-						{
-							force.z += 1.0f;
-						}
-					}
-				}
-			}
-		}
-	}
-	/*
-	if (type == 2) //type is attract
-	{
-	if ((tempx >= -250 && tempx <= 250) &&(tempy >= -250 && tempy <= 250))
-	{
-	if ( tempx < 0) // add positive force to the X
-	{
-	forceX+=110.0f;
-	}
-	if( tempx > 0)
-	{
-	forceX+=-110.0f;
-	}
-	if ( tempy < 0)
-	{
-	forceY+=110.0f;
-	}
-	if( tempy > 0)
-	{
-	forceY+=-110.0f;
-	}
-	}
-	}
-	*/
-}
 void P_base::AI(void)
 {
 
 	//This function makes my particles orrient and revolve around a Target point, set by the mouse position
 	if (_position.x < target.x) //is the x position of the particle less than the target X
 	{
-		force.x += 0.5f; // If so add to the X force of the particle
+		force.x += 15.0f; // If so add to the X force of the particle
 	}
 	if (_position.x > target.x)
 	{
-		force.x += -0.5f;
+		force.x += -15.0f;
 	}
 	if (_position.y < target.y)
 	{
-		force.y += 0.5f;
+		force.y += 15.0f;
 	}
 	if (_position.y > target.y)
 	{
-		force.y += -0.5f;
+		force.y += -15.0f;
 	}
 	if (_position.z < target.z)
 	{
-		force.z += 0.5f;
+		force.z += 15.0f;
 	}
 	if (_position.z > target.z)
 	{
-		force.z += -0.5f;
+		force.z += -15.0f;
 	}
 
 }

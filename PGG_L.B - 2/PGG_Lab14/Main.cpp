@@ -13,11 +13,28 @@
 #include "Boxes.h"
 #include "P_Base.h"
 
+/*
+
+
+
+HELLO AND WELCOME TO MY PROGRAM
+
+PLEASE READ THE READ ME FILE, I PROMISE IT WILL HELP YOU...
+
+IF NOT CONTACT ME BY EMAIL OR PHONE:
+LAWRENCEGNA@GMAIL.COM
+07590964007
+
+ENJOY AND THANKYOU FOR YOUR TIME
+
+
+*/
+
+
 unsigned int loadTexture(const char *filename);
 bool collision(float, float, float, float, float, float, float, float);
-
-unsigned int tex;
-unsigned int tex2;
+unsigned int tex; //texture id
+unsigned int tex2; //Texture id
 // An initialisation function, mainly for GLEW
 // This will also print to console the version of OpenGL we are using
 bool InitGL()
@@ -144,13 +161,15 @@ int main(int argc, char *argv[])
 	//Now I will load my texture in
 	//tex = loadTexture("Sky.bmp");
 	tex2 = loadTexture("Glow.bmp");
-	// Create a model
+	// Create a model with the object file specified
 	P_base *PlayerBase = new P_base(1, "Sphere.obj");
 
+	//set start position of the sphere "player"
 	PlayerBase->setPosx(0.5f);
 	PlayerBase->setPosy(-0.0f);
 	PlayerBase->setPosz(-3.0f);
 	
+	//create my boxes, specifing how many i would like
 	Boxes *boxes = new Boxes(2000); //create a new asteroid 
 
 
@@ -168,29 +187,36 @@ int main(int argc, char *argv[])
 	//   * Draw our world
 	// We will come back to this in later lectures
 
+	//The following bools are used for key presses and function activations...
+	bool rtrue = false;
 	bool spacetrue = false;
+	bool entertrue = false;
+	//game loop
 	bool go = true;
 	int target = 0;
+	//game loops
 	while (go)
 	{
-
+		//FPS Counter
 		unsigned int current = SDL_GetTicks();
 		float deltaTs = (float)(current - lastTime) / 1000.0f;
 		lastTime = current;
 
-		//std::cout << 1.0f / deltaTs << std::endl;
-		std::cout << boxes->getSize() << std::endl;
+		std::cout << boxes->getSize() << "     FPS    "<< 1.0f / deltaTs << std::endl;
 		//Collision Checks
 		for (int i = 0; i < boxes->getSize(); i++)
 		{
+			//if the sphere is near a box on the z axis
 			float sum = PlayerBase->getPosz() - boxes->getPosz(i);
 			if ((sum < 2.0) && (sum > -2.0))
 			{
+				//then check if they are near on the other axis by doing a collision OBB test
 				if (collision(PlayerBase->getPosx() - 0.25f, PlayerBase->getPosy() - 0.25f, boxes->getPosx(i) - 0.15f, boxes->getPosy(i) - 0.15f, 0.5, 0.5, 0.3, 0.3) == true) //check if its near the mouse
 				{
 					boxes->setDelete(i);//set delete bool of the box 
 				}
 			}
+			//Is the box set to be deleted
 			if (boxes->getDelete(i) == true)
 			{
 				boxes->resizeDown(i); //delete the specific box and all relevant data
@@ -229,9 +255,9 @@ int main(int argc, char *argv[])
 
 
 			case SDL_MOUSEMOTION:
-				
+				//Spawns more boxes in within a random range
 				boxes->resizeUP();
-
+				//Store mouse position, not currently used though in final build though proved useful for debugging
 				Mx = incomingEvent.motion.x;
 				My = incomingEvent.motion.y;
 				Mx = (Mx / 100) - 6.40;
@@ -246,42 +272,70 @@ int main(int argc, char *argv[])
 				{
 				case SDLK_DOWN:
 					//Move Down
-					PlayerBase->setForce(0, -1, 0);
+					
 					break;
 				case SDLK_UP:
 					//Move Up
-					PlayerBase->setForce(0, 1, 0);
+					
 					break;
 				case SDLK_LEFT:
 					//Move Left
-					PlayerBase->setForce(-1, 0, 0);
+					
 					break;
 				case SDLK_RIGHT:
 					//Move Right
-					PlayerBase->setForce(1, 0, 0);
+
 					break;
-				case SDLK_a:
-					break;
-				case SDLK_d:
+				case SDLK_RETURN:
+					//Activate solution function
+				{
+				if (entertrue == false)
+				{
+				 entertrue = true;
+				}
+				else
+				{
+				 entertrue = false;
+				}
+				break;
+				}
+				break;
+				case SDLK_r:
+					//Activate solution function
+				{
+				 if (rtrue == false)
+				 {
+				   rtrue = true;
+				 }
+				 else
+				 {
+				   rtrue = false;
+				 }
+				 break;
+				}
 					break;
 				case SDLK_w:
-					
-					PlayerBase->setForce(0, 0, -1);
+
 					break;
 				case SDLK_s:
-					PlayerBase->setForce(0, 0, 1);
+
+					break;
+				case SDLK_ESCAPE: // or escape
+					//end game loop
+					go = false;
 					break;
 				case SDLK_SPACE:
+					//Activate solution function
 				{
-								   if (spacetrue == false)
-								   {
-									   spacetrue = true;
-								   }
-								   else
-								   {
-									   spacetrue = false;
-								   }
-								   break;
+				if (spacetrue == false)
+				{
+				  spacetrue = true;
+				}
+				else
+				{
+				  spacetrue = false;
+				}
+				break;
 				}
 					break;
 				}
@@ -289,29 +343,37 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		if (spacetrue == true)
+		if (spacetrue == true) // Is space pressed
 		{
 			boxes->AI();
-			target = 0;
+			
+		}
+		if (entertrue == true) //is enter pressed
+		{
+			target = 0; //box finding function
 			target = boxes->Find(PlayerBase->getPosx(), PlayerBase->getPosy(), PlayerBase->getPosz());
 			//if (target != 0)
 			{
-				PlayerBase->setTarget(boxes->getPosx(target), boxes->getPosy(target), boxes->getPosz(target));
-				
+				PlayerBase->setTarget(boxes->getPosx(target), boxes->getPosy(target), boxes->getPosz(target)); //set the nearest box as a target
+
 			}
+			PlayerBase->AI(); // if so run the sphere ai, finding and honing in on the nearest sphere
+		}
+
+		if (rtrue == true) // is 'r' pressed?
+		{
+			boxes->Repel(); // if so run the boxes reppling function, beware this can cause great performance issues if the box count is higher than around 2.5k
 		}
 		// Update the model, to make it rotate
-		boxes->Update(deltaTs);
-		PlayerBase->Update(deltaTs, Mx, My, (deltaTs * -100));
+		boxes->Update(deltaTs);//Update for the Boxes
+		PlayerBase->Update(deltaTs, Mx, My, (deltaTs * -100)); //Update for the sphere
 
 
-		boxes->Repel();
-		PlayerBase->AI();
-		boxes->travelTime(deltaTs);
-		PlayerBase->travelTime(deltaTs);
+		
+		
+		boxes->travelTime(deltaTs); //Calculates the physics for the boxes
+		PlayerBase->travelTime(deltaTs);//Calculates the physics for the sphere
 
-
-		//For Particle repeling
 
 
 
@@ -333,9 +395,9 @@ int main(int argc, char *argv[])
 		glm::mat4 View = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, -2.5f));
 
 		
-		// Draw the object using the given view (which contains the camera orientation) and projection (which contains information about the camera 'lense')
-		boxes->Draw(View, Projection);
-		PlayerBase->Draw(View, Projection, tex2);
+		// Draw the objects
+		boxes->Draw(View, Projection); //Draws all the boxes
+		PlayerBase->Draw(View, Projection, tex2); //draws the single sphere
 		//playerMesh->Draw(View, Projection);
 		
 
@@ -356,7 +418,7 @@ int main(int argc, char *argv[])
 	// If we get outside the main game loop, it means our user has requested we exit
 
 
-	// Our cleanup phase, hopefully fairly self-explanatory ;)
+	// Our cleanup phase, hopefully fairly self-explanatory ;) it is leigh dont worry ;)
 	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
@@ -364,6 +426,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
+//Collision function, pretty much an AABB tester.
 bool collision(float x1, float y1, float x2, float y2, float x1d, float y1d, float x2d, float y2d) //Check if collision is true
 {
 	if (((x1 + x1d) < x2) || ((x2 + x2d)< x1))//&& (( (y1+y1d) > y2 ) && (y1+y1d) < (y2+y2d)))

@@ -102,39 +102,29 @@ public:
 	void travelTime(float deltaTs);
 
 protected:
-
 	/// Object file
 	ModelLoader* mesh;
-	
 	// vertex buffers
 	GLuint positionBuffer;
 	GLuint normalBuffer;
 	GLuint texCoordBuffer;
 	GLuint tangentBuffer;
 	GLuint biTangentBuffer;
-
 	// texture ID?
 	unsigned int texture;
-
 	/// Euler angles for rotation
-	
 	/// Vertex Array Object for model in OpenGL
 	GLuint _VAO;
 	GLuint IndexBufferId;
-
 	/// Shader program
 	GLuint _program;
-
 	/// Uniform locations
 	GLint _shaderModelMatLocation, _shaderViewMatLocation, _shaderProjMatLocation;
-
 	/// Object's model matrix
 	/// This is rebuilt in the update function
-
 	glm::mat4 _modelMatrix;
 	/// Number of vertices in the model
 	unsigned int _numVertices;
-	
 	// Variables for gameplay
 	int size;
 

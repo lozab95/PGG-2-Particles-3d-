@@ -45,7 +45,16 @@ public:
 	{
 		health = i;
 	};
-	//Positions
+	
+	/*
+	
+	In all of the following get, set and similar functions,
+	I use an inputed index varaible to establish which element or box within the said arrays to interact with.
+	This is how I can have one huge optermized.
+	
+	*/
+
+
 	inline float getPosx(int index)
 	{
 		return _position[index].x;
@@ -88,15 +97,15 @@ public:
 	inline void setType(int i)
 	{
 		type=i;
-		
 	};
+	//Creates a new box with a random postion and all of the expected values, same as the constructor...
 	inline void resizeUP()
 	{
 		size += 1;
 
 		float newx = rand() % 400 - 200;
 		float newy = rand() % 400 - 200;
-		float newz = rand() % 2000 - 10000;
+		float newz = rand() % 400 - 2000;
 		newx = newx / 100;
 		newy = newy / 100;
 		newz = newz / 100;
@@ -124,7 +133,7 @@ public:
 		_modelMatrix.push_back(new_modelMatrix);
 
 	};
-
+	//Destroys a specific box by erasing each specific array member
 	inline void resizeDown(int i)
 	{
 

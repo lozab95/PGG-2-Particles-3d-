@@ -30,13 +30,14 @@ Boxes::Boxes( int i)
 
 	for (int l = 0; l < size; l++)
 	{
+		//Spawns at a random location
 		float newx = rand() % 400 - 210;
 		float newy = rand() % 400 - 210;
-		float newz = rand() % 2000 - 10000;
+		float newz = rand() % 400 - 2000;
 		newx = newx / 100;
 		newy = newy / 100;
 		newz = newz / 100;
-
+		//create new box values to push onto the std vector arrays
 		glm::vec3 newPosition(newx, newy, newz);
 		glm::vec3 newRotation(0.0f, 0.0f, 0.0f);
 		glm::vec3 newForce(0.0f, 0.0f, 0.0f);
@@ -46,7 +47,7 @@ Boxes::Boxes( int i)
 		bool newdeleteme = false;
 		glm::mat4 new_modelMatrix;
 		//create a new asteroid 
-
+		//push value onto std vector arrays
 		accel.push_back(newAccel);
 		target.push_back(newTarget);
 		_rotation.push_back(newRotation);
@@ -58,8 +59,8 @@ Boxes::Boxes( int i)
 		
 	}
 
-	drag = 0.5f;
-	mass = 2.0f;
+	drag = 0.5f;// for physics
+	mass = 2.0f;// for physics
 	type = 1; //Runner Particle, will repel others when Ai activated
 	U_id = 1; // Unit ID is set to 1
 
@@ -77,20 +78,20 @@ int Boxes::Find(float x, float y, float z)
 	//Let find the closest piece of matter
 	for (int i = 0; i < size; i++)
 	{
-		float tempx = (_position[i].x - x);
+		float tempx = (_position[i].x - x);// distance between values
 		float tempy = (_position[i].y - y);
 		float tempz = (_position[i].z - z);
 
-		float Closetempx = (_position[indxClosest].x -x);
+		float Closetempx = (_position[indxClosest].x -x);// distance between values
 		float Closetempy = (_position[indxClosest].y - y);
 		float Closetempz = (_position[indxClosest].z - z);
 
-		if ((tempx < Closetempx) && (tempy < Closetempy) && (tempz < Closetempz))
+		if ((tempx < Closetempx) && (tempy < Closetempy) && (tempz < Closetempz))// which is closer
 		{
-			indxClosest = i;
+			indxClosest = i;//set new value to closest
 		}
 	}
-	return indxClosest;
+	return indxClosest;//use to allocate target
 }
 
 void Boxes::InitialiseVAO()
